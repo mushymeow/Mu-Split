@@ -1,0 +1,15 @@
+# Mu Split race server: one Cloudflare Worker + one Durable Object per race room.
+# Free plan is enough (Durable Objects with SQLite storage are on the Workers Free plan).
+# Deploy: run deploy.bat (or: npx wrangler deploy)
+
+name = "musplit-race"
+main = "worker.js"
+compatibility_date = "2025-06-01"
+
+[[durable_objects.bindings]]
+name = "ROOMS"
+class_name = "Room"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Room"]

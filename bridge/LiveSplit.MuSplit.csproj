@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Build:  dotnet build -c Release -p:LiveSplitDir="C:\path\to\LiveSplit"
+    Output: bin\Release\net481\LiveSplit.MuSplit.dll  -> copy into LiveSplit\Components\
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net481</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>LiveSplit.MuSplit</AssemblyName>
+    <RootNamespace>LiveSplit.MuSplit</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <LiveSplitDir Condition="'$(LiveSplitDir)' == ''">C:\LiveSplit</LiveSplitDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Lets the .NET SDK build .NET Framework 4.8.1 without Visual Studio installed -->
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Private=false: don't copy LiveSplit's own DLLs into the output -->
+    <Reference Include="LiveSplit.Core">
+      <HintPath>$(LiveSplitDir)\LiveSplit.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UpdateManager">
+      <HintPath>$(LiveSplitDir)\UpdateManager.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Web.Extensions" />  <!-- JavaScriptSerializer for reading commands -->
+  </ItemGroup>
+
+</Project>

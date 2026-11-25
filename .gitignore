@@ -1,0 +1,27 @@
+# build output and downloads
+bin/
+obj/
+*.user
+.vs/
+__pycache__/
+*.love
+vendor/
+dist/
+dist.zip
+MuSplit.zip
+build-tmp/
+love/moonshine/
+
+# your own settings and logs (never upload these)
+settings.cfg
+*.log
+
+# Claude's working files
+Claude outputs/
+
+# the workshop is its own repo (mushymeow/musplit-workshop)
+workshop/
+
+# race server deploy files
+server/node_modules/
+server/.wrangler/

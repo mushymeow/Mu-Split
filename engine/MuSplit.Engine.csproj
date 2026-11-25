@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Mu Split's own engine: replaces LiveSplit.exe. Uses LiveSplit's libraries (MIT) for
+    timing, .lss files and autosplitters, and compiles the bridge (..\bridge) straight in.
+
+    Build:  dotnet build -c Release -p:LiveSplitDir="C:\path\to\LiveSplit"
+    Output: bin\Release\net481\MuSplitEngine.exe  (build.ps1 puts it in dist\engine\)
+  -->
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net481</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>MuSplitEngine</AssemblyName>
+    <RootNamespace>MuSplit.Engine</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Version>0.1.0</Version>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <!-- LiveSplit.exe.config's binding redirects are used instead (build.ps1 copies it) -->
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <LiveSplitDir Condition="'$(LiveSplitDir)' == ''">C:\LiveSplit</LiveSplitDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- the bridge, minus the parts that only make sense as a LiveSplit plugin -->
+    <Compile Include="..\bridge\*.cs" Exclude="..\bridge\MuSplitComponent.cs;..\bridge\MuSplitFactory.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="LiveSplit.Core">
+      <HintPath>$(LiveSplitDir)\LiveSplit.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UpdateManager">
+      <HintPath>$(LiveSplitDir)\UpdateManager.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Web.Extensions" />
+  </ItemGroup>
+
+</Project>
